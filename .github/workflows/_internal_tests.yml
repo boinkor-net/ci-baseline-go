@@ -35,14 +35,14 @@ jobs:
     uses: "./.github/workflows/ci_baseline_go_lints.yml"
     secrets: inherit
     with:
-      manifest_dir: "tests/fmt-failure"
+      module_base: "tests/fmt-failure"
       _internal_continue_on_error: true
 
   failure_clippy:
     uses: "./.github/workflows/ci_baseline_go_lints.yml"
     secrets: inherit
     with:
-      manifest_dir: "tests/lint-failure"
+      module_base: "tests/lint-failure"
       _internal_continue_on_error: true
 
   all_failure_tests:
