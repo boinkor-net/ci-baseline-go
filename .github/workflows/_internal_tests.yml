@@ -65,4 +65,4 @@ jobs:
         run: echo $OUTCOMES
       - name: failure
         run: exit 1
-        if: steps.outcomes.outputs.all_failure == 'true'
+        if: steps.outcomes.outputs.all_failure != 'true'
