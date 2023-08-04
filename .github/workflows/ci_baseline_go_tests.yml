@@ -22,7 +22,7 @@ on:
         value: ${{ jobs.test.outputs.result }}
       _internal_build_result:
         description: "Result of the build job"
-        value: ${{ jobs.test.outputs.result }}
+        value: ${{ jobs.build.outputs.result }}
 
 jobs:
   test:
