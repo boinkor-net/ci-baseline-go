@@ -37,6 +37,7 @@ jobs:
           go_version: ${{inputs.go_version}}
       - run: go test -v ./...
         id: test
+        working-directory: ${{inputs.module_base}}
 
   build:
     runs-on: ubuntu-latest
@@ -50,3 +51,4 @@ jobs:
           go_version: ${{inputs.go_version}}
       - run: go build -v ./...
         id: build
+        working-directory: ${{inputs.module_base}}
