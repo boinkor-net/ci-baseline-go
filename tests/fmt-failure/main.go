@@ -1,8 +1,6 @@
 package main
 
-import "testing"
-
-func TestUgly(t *testing.T) {
+func main() {
 // Yes, this
 	    // ugly
 	// as hell
