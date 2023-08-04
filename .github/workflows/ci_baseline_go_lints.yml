@@ -20,6 +20,9 @@ on:
       _internal_golangci_lint_result:
         description: "Result of the golangci_lint job"
         value: ${{ jobs.golangci_lint.outputs.result }}
+      _internal_fmt_result:
+        description: "Result of the fmt job"
+        value: ${{ jobs.golangci_lint.outputs.result }}
 
 jobs:
   golangci_lint:
@@ -38,3 +41,16 @@ jobs:
         with:
           version: "v1.53"
           working-directory: ${{inputs.module_base}}
+
+  fmt:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{inputs._internal_continue_on_error}}
+    outputs:
+      result: ${{steps.fmt.outcome}}
+    steps:
+      - uses: actions/checkout@v3
+      - name: fmt
+        id: fmt
+        uses: Jerome1337/goimports-action@v1.0.3
+        with:
+          goimports-path: ${{inputs.module_base}}

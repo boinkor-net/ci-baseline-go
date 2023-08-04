@@ -38,7 +38,7 @@ jobs:
       module_base: "tests/fmt-failure"
       _internal_continue_on_error: true
 
-  failure_lint:
+  failure_golangci_lint:
     uses: "./.github/workflows/ci_baseline_go_lints.yml"
     secrets: inherit
     with:
@@ -51,7 +51,7 @@ jobs:
       - failure_tests
       - failure_build
       - failure_fmt
-      - failure_lint
+      - failure_golangci_lint
     steps:
       - name: transform the outcomes
         id: outcomes
