@@ -5,15 +5,19 @@ on:
 jobs:
   success_tests:
     uses: "./.github/workflows/ci_baseline_go_tests.yml"
-    secrets: inherit
     with:
       module_base: "tests/success"
 
   success_lints:
-    uses: "./.github/workflows/ci_baseline_go_tests.yml"
-    secrets: inherit
+    uses: "./.github/workflows/ci_baseline_go_lints.yml"
     with:
       module_base: "tests/success"
+
+  success_build:
+    uses: "./.github/workflows/ci_baseline_go_build.yml"
+    with:
+      module_base: "tests/success"
+      subdir: "./cmd/hello-world"
 
   # Test jobs that expect failure; note that these need to be named
   # exactly after the _internal_<test job>_result output.
