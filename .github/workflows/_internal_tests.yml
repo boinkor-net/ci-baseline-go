@@ -29,7 +29,7 @@ jobs:
       _internal_continue_on_error: true
 
   failure_build:
-    uses: "./.github/workflows/ci_baseline_go_tests.yml"
+    uses: "./.github/workflows/ci_baseline_go_build.yml"
     secrets: inherit
     with:
       module_base: "tests/build-failure"
