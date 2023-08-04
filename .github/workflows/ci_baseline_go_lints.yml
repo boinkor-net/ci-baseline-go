@@ -1,0 +1,56 @@
+name: "CI/Go - lints"
+on:
+  workflow_call:
+    inputs:
+      module_base:
+        description: "Directory containing the go.mod of the codebase under test"
+        type: string
+        default: "."
+      go_version:
+        description: "Go toolchain to use"
+        type: string
+        default: "1.20"
+
+      # Used for testing this repo:
+      _internal_continue_on_error:
+        description: "Whether to set continue-on-error on the job; set this to true only in the tests _inside this repo_. Otherwise your workflow run will pass when it shouldn't."
+        type: boolean
+
+    outputs:
+      _internal_golangci_lint_result:
+        description: "Result of the golangci_lint job"
+        value: ${{ jobs.golangci_lint.outputs.result }}
+      _internal_fmt_result:
+        description: "Result of the fmt job"
+        value: ${{ jobs.golangci_lint.outputs.result }}
+
+jobs:
+  golangci_lint:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{inputs._internal_continue_on_error}}
+    outputs:
+      result: ${{steps.golangci_lint.outcome}}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go_version: ${{inputs.go_version}}
+      - name: golangci-lint
+        id: golangci_lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: "v1.53"
+          working-directory: ${{inputs.module_base}}
+
+  fmt:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{inputs._internal_continue_on_error}}
+    outputs:
+      result: ${{steps.fmt.outcome}}
+    steps:
+      - uses: actions/checkout@v3
+      - name: fmt
+        id: fmt
+        uses: Jerome1337/goimports-action@v1.0.3
+        with:
+          goimports-path: ${{inputs.module_base}}

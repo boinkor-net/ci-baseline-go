@@ -1,0 +1,37 @@
+name: "CI/Go - lints"
+on:
+  workflow_call:
+    inputs:
+      module_base:
+        description: "Directory containing the go.mod of the codebase under test"
+        type: string
+        default: "."
+      go_version:
+        description: "Go toolchain to use"
+        type: string
+        default: "1.20"
+
+      # Used for testing this repo:
+      _internal_continue_on_error:
+        description: "Whether to set continue-on-error on the job; set this to true only in the tests _inside this repo_. Otherwise your workflow run will pass when it shouldn't."
+        type: boolean
+
+    outputs:
+      _internal_test_result:
+        description: "Result of the test job"
+        value: ${{ jobs.test.outputs.result }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{inputs._internal_continue_on_error}}
+    outputs:
+      result: ${{steps.test.outcome}}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go_version: ${{inputs.go_version}}
+      - run: go test -v ./...
+        id: test
+        working-directory: ${{inputs.module_base}}
