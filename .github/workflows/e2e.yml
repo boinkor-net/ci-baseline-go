@@ -36,7 +36,7 @@ jobs:
     uses: "./.github/workflows/_internal_expected_lint_failure.yml"
     secrets: inherit
     with:
-      expected_failure: "fmt"
+      expected_failure: "lint"
       module_base: "tests/fmt-failure"
 
   lint_failure:
