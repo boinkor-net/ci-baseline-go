@@ -17,26 +17,26 @@ on:
         type: boolean
 
     outputs:
-      _internal_golangci_lint_result:
+      _internal_lint_result:
         description: "Result of the golangci_lint job"
-        value: ${{ jobs.golangci_lint.outputs.result }}
+        value: ${{ jobs.lint.outputs.result }}
       _internal_fmt_result:
         description: "Result of the fmt job"
-        value: ${{ jobs.golangci_lint.outputs.result }}
+        value: ${{ jobs.fmt.outputs.result }}
 
 jobs:
   golangci_lint:
     runs-on: ubuntu-latest
     continue-on-error: ${{inputs._internal_continue_on_error}}
     outputs:
-      result: ${{steps.golangci_lint.outcome}}
+      result: ${{steps.lint.outcome}}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
         with:
           go-version: ${{inputs.go_version}}
       - name: golangci-lint
-        id: golangci_lint
+        id: lint
         uses: golangci/golangci-lint-action@v3
         with:
           version: "v1.53"
