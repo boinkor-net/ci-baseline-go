@@ -1,0 +1,47 @@
+name: "Tests for this repo"
+on:
+  workflow_call:
+
+jobs:
+  success_tests:
+    uses: "./.github/workflows/ci_baseline_go_tests.yml"
+    with:
+      module_base: "tests/success"
+
+  success_lints:
+    uses: "./.github/workflows/ci_baseline_go_lints.yml"
+    with:
+      module_base: "tests/success"
+
+  success_build:
+    uses: "./.github/workflows/ci_baseline_go_build.yml"
+    with:
+      module_base: "tests/success"
+      subdir: "./cmd/hello-world"
+
+  # Test jobs that expect failure:
+  test_failure:
+    uses: "./.github/workflows/_internal_expected_test_failure.yml"
+    secrets: inherit
+    with:
+      module_base: "tests/test-failure"
+
+  build_failure:
+    uses: "./.github/workflows/_internal_expected_build_failure.yml"
+    secrets: inherit
+    with:
+      module_base: "tests/build-failure"
+
+  fmt_failure:
+    uses: "./.github/workflows/_internal_expected_lint_failure.yml"
+    secrets: inherit
+    with:
+      expected_failure: "lint"
+      module_base: "tests/fmt-failure"
+
+  lint_failure:
+    uses: "./.github/workflows/_internal_expected_lint_failure.yml"
+    secrets: inherit
+    with:
+      expected_failure: "lint"
+      module_base: "tests/lint-failure"

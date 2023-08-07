@@ -2,18 +2,18 @@
 # readable, but please don't edit it.
 
 "jobs":
-  "_internal_tests":
-    "secrets": "inherit"
-    "uses": "./.github/workflows/_internal_tests.yml"
   "any_ci":
     "runs-on": "ubuntu-latest"
     "steps":
     - "name": "Immediate success for improved visibility on github merge queue"
       "run": "true"
+  "e2e":
+    "secrets": "inherit"
+    "uses": "./.github/workflows/e2e.yml"
   "overall_ci":
     "if": "always()"
     "needs":
-    - "_internal_tests"
+    - "e2e"
     "permissions":
       "actions": "read"
     "runs-on": "ubuntu-latest"
