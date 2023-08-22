@@ -5,7 +5,7 @@ The workflows in this repo all help drive the CI in this organization's Golang r
 All these workflows expect to test a modules-enabled go repo and take some common arguments:
 
 * `module_base`: The directory containing the code base under test. Defaults to `.`
-* `go_version`: The version of go under test. Defaults to `1.20`.
+* `go_version`: The version of go under test. If unset, this will use the version given in go.mod under `module_base`.
 
 ## `ci_baseline_go_tests.yml` - Tests
 

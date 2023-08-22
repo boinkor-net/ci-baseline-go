@@ -7,9 +7,8 @@ on:
         type: string
         default: "."
       go_version:
-        description: "Go toolchain to use"
+        description: "Go toolchain to use. If unspecified, will use the version given in go.mod in module_base."
         type: string
-        default: "1.20"
 
       # Used for testing this repo:
       _internal_continue_on_error:
@@ -32,6 +31,7 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: ${{inputs.go_version}}
+          go-version-file: ${{inputs.module_base}}/go.mod
       - name: golangci-lint
         id: lint
         uses: golangci/golangci-lint-action@v3
