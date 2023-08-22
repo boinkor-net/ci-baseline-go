@@ -45,3 +45,27 @@ jobs:
     with:
       expected_failure: "lint"
       module_base: "tests/lint-failure"
+
+  # Testing that we pass the go_version argument through (by failing
+  # the build on the wrong one):
+  test_version_mismatch_failure:
+    uses: "./.github/workflows/_internal_expected_test_failure.yml"
+    secrets: inherit
+    with:
+      go_version: "1.18"
+      module_base: "tests/test-version-mismatch-failure"
+
+  build_version_mismatch_failure:
+    uses: "./.github/workflows/_internal_expected_build_failure.yml"
+    secrets: inherit
+    with:
+      go_version: "1.18"
+      module_base: "tests/test-version-mismatch-failure"
+
+  lint_version_mismatch_failure:
+    uses: "./.github/workflows/_internal_expected_lint_failure.yml"
+    secrets: inherit
+    with:
+      go_version: "1.18"
+      expected_failure: "lint"
+      module_base: "tests/test-version-mismatch-failure"
