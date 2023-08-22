@@ -7,9 +7,8 @@ on:
         type: string
         default: "."
       go_version:
-        description: "Go toolchain to use"
+        description: "Go toolchain to use. If unspecified, will use the version given in go.mod in module_base."
         type: string
-        default: "1.20"
       subdir:
         description: "Directory containing the main.go of the executable being built"
         type: string
@@ -36,6 +35,7 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: ${{inputs.go_version}}
+          go-version-file: ${{inputs.module_base}}/go.mod
       - run: go build -v ./${{inputs.subdir}}
         id: build
         working-directory: ${{inputs.module_base}}
