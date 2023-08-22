@@ -69,3 +69,19 @@ jobs:
       go_version: "1.18"
       expected_failure: "lint"
       module_base: "tests/test-version-mismatch-failure"
+
+  version_tests:
+    uses: "./.github/workflows/ci_baseline_go_tests.yml"
+    with:
+      module_base: "tests/test-version-mismatch-failure"
+
+  version_lints:
+    uses: "./.github/workflows/ci_baseline_go_lints.yml"
+    with:
+      module_base: "tests/test-version-mismatch-failure"
+
+  version_build:
+    uses: "./.github/workflows/ci_baseline_go_build.yml"
+    with:
+      module_base: "tests/test-version-mismatch-failure"
+      subdir: "./cmd/hello-world"
