@@ -27,7 +27,7 @@ jobs:
     outputs:
       result: ${{steps.test.outcome}}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-go@v4
         with:
           go-version: ${{inputs.go_version}}
