@@ -36,5 +36,5 @@ jobs:
         id: lint
         uses: golangci/golangci-lint-action@v3
         with:
-          version: "v1.54.2"
+          version: "v1.56.2"
           working-directory: ${{inputs.module_base}}
