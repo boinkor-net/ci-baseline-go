@@ -1,0 +1,23 @@
+name: "boinkor.net CI/go - test"
+description: "Run `go test` in the repository."
+author: "Andreas Fuchs <asf@boinkor.net>"
+inputs:
+  module_base:
+    description: "Directory containing the go.mod of the codebase under test"
+    default: "."
+  go_version:
+    description: "Go toolchain to use. If unspecified, will use the version given in go.mod in module_base."
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up go toolchain
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{inputs.go_version}}
+        go-version-file: ${{inputs.module_base}}/go.mod
+    - run: go test -v ./...
+      shell: bash
+      id: test
+      working-directory: ${{inputs.module_base}}

@@ -1,4 +1,4 @@
-name: "CI/Go - lints"
+name: "CI/Go - build"
 on:
   workflow_call:
     inputs:
@@ -32,10 +32,8 @@ jobs:
       result: ${{steps.build.outcome}}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: ./actions/build
         with:
-          go-version: ${{inputs.go_version}}
-          go-version-file: ${{inputs.module_base}}/go.mod
-      - run: go build -v ./${{inputs.subdir}}
-        id: build
-        working-directory: ${{inputs.module_base}}
+          module_base: ${{inputs.module_base}}
+          go_version: ${{inputs.go_version}}
+          subdir: ${{inputs.subdir}}
