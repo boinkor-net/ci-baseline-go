@@ -1,29 +1,32 @@
-# Reusable baseline CI workflows for Go [![CI](https://github.com/boinkor-net/ci-baseline-go/actions/workflows/ci.yml/badge.svg)](https://github.com/boinkor-net/ci-baseline-go/actions/workflows/ci.yml)
+# Reusable baseline CI actions for Go [![CI](https://github.com/boinkor-net/ci-baseline-go/actions/workflows/ci.yml/badge.svg)](https://github.com/boinkor-net/ci-baseline-go/actions/workflows/ci.yml)
 
-The workflows in this repo all help drive the CI in this organization's Golang repos. There are a few workflows defined here that are [reusable](https://docs.github.com/en/actions/using-workflows/reusing-workflows) in github actions.
+The actions in this repo all help drive the CI in this organization's Golang repos.
 
-All these workflows expect to test a modules-enabled go repo and take some common arguments:
+All these actions expect to test a modules-enabled go repo and take some common arguments:
 
 * `module_base`: The directory containing the code base under test. Defaults to `.`
 * `go_version`: The version of go under test. If unset, this will use the version given in go.mod under `module_base`.
 
-## `ci_baseline_go_tests.yml` - Tests
+## `actions/test` - Tests
 
-This workflow runs `go test` against a module.
+This action runs `go test` against a module.
 
 Example workflow:
 
 ```yml
 jobs:
-  tests:
-    uses: "boinkor-net/ci-baseline-go/.github/workflows/ci_baseline_go_tests.yml@main"
-    with:
-      module_base: "cmd/hello-world"
+  success_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./actions/test
+        with:
+          module_base: "tests/success"
 ```
 
-## `ci_baseline_go_build.yml` - Build
+## `actions/build` - Build
 
-This workflow runs `go build` against a module. It has options:
+This action runs `go build` against a module. It has options:
 
 * `subdir`: The directory containing the main.go file resulting in the executable. Defaults to `.`
 
@@ -31,22 +34,29 @@ Example workflow:
 
 ```yml
 jobs:
-  build:
-    uses: "./.github/workflows/ci_baseline_go_build.yml"
-    with:
-      module_base: "go/"
-      subdir: cmd/hello-world
+  success_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./actions/build
+        with:
+          module_base: "tests/success"
+          subdir: "./cmd/hello-world"
 ```
 
 ## `ci_baseline_go_lints.yml` - Lints & formatting
 
-This workflow runs `golangci-lint` and `goimports` against a module, as two separate / parallel jobs.
+This action runs `golangci-lint` and `goimports` against a module, as two separate / parallel jobs.
 
 Example workflow:
 
 ```yml
-  success_lints:
-    uses: "./.github/workflows/ci_baseline_go_lints.yml"
-    with:
-      module_base: "cmd/hello-world"
+jobs:
+  success_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./actions/lint
+        with:
+          module_base: "tests/success"
 ```
