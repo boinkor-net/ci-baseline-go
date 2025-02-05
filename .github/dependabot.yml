@@ -1,5 +1,7 @@
 "updates":
-- "directory": "/"
+- "directories":
+  - "/"
+  - "/actions/*"
   "groups":
     "github-actions":
       "patterns":
