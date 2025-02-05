@@ -4,23 +4,57 @@ on:
 
 jobs:
   success_tests:
-    uses: "./.github/workflows/ci_baseline_go_tests.yml"
-    with:
-      module_base: "tests/success"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./actions/test
+        with:
+          module_base: "tests/success"
 
-  success_lints:
-    uses: "./.github/workflows/ci_baseline_go_lints.yml"
-    with:
-      module_base: "tests/success"
+  success_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./actions/lint
+        with:
+          module_base: "tests/success"
 
   success_build:
-    uses: "./.github/workflows/ci_baseline_go_build.yml"
-    with:
-      module_base: "tests/success"
-      subdir: "./cmd/hello-world"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./actions/build
+        with:
+          module_base: "tests/success"
+          subdir: "./cmd/hello-world"
+
+  success_tests_versioned:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./actions/test
+        with:
+          module_base: "tests/go1.20"
+
+  success_lint_versioned:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./actions/lint
+        with:
+          module_base: "tests/go1.20"
+
+  success_build_versioned:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./actions/build
+        with:
+          module_base: "tests/go1.20"
+          subdir: "./cmd/hello-world"
 
   # Test jobs that expect failure:
-  test_failure:
+  failure_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,7 +69,7 @@ jobs:
           exit 1
         if: ${{ success() && steps.failure.outcome != 'failure' }}
 
-  build_failure:
+  failure_build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -50,7 +84,7 @@ jobs:
           exit 1
         if: ${{ success() && steps.failure.outcome != 'failure' }}
 
-  lint_fmt_failure:
+  failure_lint_fmt:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -65,7 +99,7 @@ jobs:
           exit 1
         if: ${{ success() && steps.failure.outcome != 'failure' }}
 
-  lint_failure:
+  failure_lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -82,7 +116,7 @@ jobs:
 
   # Testing that we pass the go_version argument through (by failing
   # the build on the wrong one):
-  test_failure_version_mismatch:
+  failure_test_version_mismatch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -98,7 +132,7 @@ jobs:
           exit 1
         if: ${{ success() && steps.failure.outcome != 'failure' }}
 
-  build_failure_version_mismatch:
+  failure_build_version_mismatch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -113,19 +147,3 @@ jobs:
           echo "::setFailed::Expected the failure step to fail; instead: ${{steps.failure.outcome}}"
           exit 1
         if: ${{ success() && steps.failure.outcome != 'failure' }}
-
-  version_tests:
-    uses: "./.github/workflows/ci_baseline_go_tests.yml"
-    with:
-      module_base: "tests/go1.20"
-
-  version_lints:
-    uses: "./.github/workflows/ci_baseline_go_lints.yml"
-    with:
-      module_base: "tests/go1.20"
-
-  version_build:
-    uses: "./.github/workflows/ci_baseline_go_build.yml"
-    with:
-      module_base: "tests/go1.20"
-      subdir: "./cmd/hello-world"
