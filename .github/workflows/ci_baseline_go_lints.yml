@@ -28,13 +28,7 @@ jobs:
       result: ${{steps.lint.outcome}}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: ./actions/lint
         with:
-          go-version: ${{inputs.go_version}}
-          go-version-file: ${{inputs.module_base}}/go.mod
-      - name: golangci-lint
-        id: lint
-        uses: golangci/golangci-lint-action@v6
-        with:
-          version: "v1.61.0"
-          working-directory: ${{inputs.module_base}}
+          module_base: ${{inputs.module_base}}
+          go_version: ${{inputs.go_version}}

@@ -1,5 +1,5 @@
-name: "boinkor.net CI/go - test"
-description: "Run `go test` in the repository."
+name: "boinkor.net CI/go - lint"
+description: "Run `golangci-lint` in the repository."
 author: "Andreas Fuchs <asf@boinkor.net>"
 inputs:
   module_base:
@@ -17,7 +17,9 @@ runs:
       with:
         go-version: ${{inputs.go_version}}
         go-version-file: ${{inputs.module_base}}/go.mod
-    - run: go test -v ./...
-      shell: bash
-      id: test
-      working-directory: ${{inputs.module_base}}
+    - name: golangci-lint
+      uses: golangci/golangci-lint-action@v6
+      id: lint
+      with:
+        version: "v1.61.0"
+        working-directory: ${{inputs.module_base}}

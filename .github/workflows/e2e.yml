@@ -50,19 +50,35 @@ jobs:
           exit 1
         if: ${{ failure() && steps.failure.outcome == 'failure' }}
 
-  fmt_failure:
-    uses: "./.github/workflows/_internal_expected_lint_failure.yml"
-    secrets: inherit
-    with:
-      expected_failure: "lint"
-      module_base: "tests/fmt-failure"
+  lint_fmt_failure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./actions/lint
+        with:
+          module_base: "tests/fmt-failure"
+        id: failure
+        continue-on-error: true
+      - name: Expect failure
+        run: |
+          echo "::error title=Expected the failure step to fail::Instead: ${{steps.failure.outcome}}"
+          exit 1
+        if: ${{ failure() && steps.failure.outcome == 'failure' }}
 
   lint_failure:
-    uses: "./.github/workflows/_internal_expected_lint_failure.yml"
-    secrets: inherit
-    with:
-      expected_failure: "lint"
-      module_base: "tests/lint-failure"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./actions/lint
+        with:
+          module_base: "tests/lint-failure"
+        id: failure
+        continue-on-error: true
+      - name: Expect failure
+        run: |
+          echo "::error title=Expected the failure step to fail::Instead: ${{steps.failure.outcome}}"
+          exit 1
+        if: ${{ failure() && steps.failure.outcome == 'failure' }}
 
   # Testing that we pass the go_version argument through (by failing
   # the build on the wrong one):
