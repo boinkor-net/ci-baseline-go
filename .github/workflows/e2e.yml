@@ -21,10 +21,19 @@ jobs:
 
   # Test jobs that expect failure:
   test_failure:
-    uses: "./.github/workflows/_internal_expected_test_failure.yml"
-    secrets: inherit
-    with:
-      module_base: "tests/test-failure"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./actions/test
+        with:
+          module_base: "tests/test-failure"
+        continue-on-error: true
+        id: failure
+      - name: Expect failure
+        run: |
+          echo "::error title=Expected the failure step to fail::Instead: ${{steps.failure.outcome}}"
+          exit 1
+        if: ${{ failure() && steps.failure.outcome == 'failure' }}
 
   build_failure:
     runs-on: ubuntu-latest
@@ -33,13 +42,13 @@ jobs:
       - uses: ./actions/build
         with:
           module_base: "tests/build-failure"
-        id: build_failure
+        id: failure
         continue-on-error: true
       - name: Expect failure
         run: |
-          echo "Expected the build_failure step to fail"
+          echo "::error title=Expected the failure step to fail::Instead: ${{steps.failure.outcome}}"
           exit 1
-        if: ${{ failure() && steps.build_failure.outcome == 'failure' }}
+        if: ${{ failure() && steps.failure.outcome == 'failure' }}
 
   fmt_failure:
     uses: "./.github/workflows/_internal_expected_lint_failure.yml"
@@ -57,14 +66,23 @@ jobs:
 
   # Testing that we pass the go_version argument through (by failing
   # the build on the wrong one):
-  test_version_mismatch_failure:
-    uses: "./.github/workflows/_internal_expected_test_failure.yml"
-    secrets: inherit
-    with:
-      go_version: "1.18"
-      module_base: "tests/go1.20"
+  test_failure_version_mismatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./actions/test
+        with:
+          go_version: "1.18"
+          module_base: "tests/go1.20"
+        continue-on-error: true
+        id: failure
+      - name: Expect failure
+        run: |
+          echo "::error title=Expected the failure step to fail::Instead: ${{steps.failure.outcome}}"
+          exit 1
+        if: ${{ failure() && steps.failure.outcome == 'failure' }}
 
-  build_version_mismatch_failure:
+  build_failure_version_mismatch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -73,12 +91,12 @@ jobs:
           go_version: "1.18"
           module_base: "tests/go1.20"
         continue-on-error: true
-        id: build_failure
+        id: failure
       - name: Expect failure
         run: |
-          echo "Expected the build_failure step to fail"
+          echo "::error title=Expected the failure step to fail::Instead: ${{steps.failure.outcome}}"
           exit 1
-        if: ${{ failure() && steps.build_failure.outcome == 'failure' }}
+        if: ${{ failure() && steps.failure.outcome == 'failure' }}
 
   version_tests:
     uses: "./.github/workflows/ci_baseline_go_tests.yml"
