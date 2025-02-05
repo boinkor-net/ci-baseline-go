@@ -31,9 +31,9 @@ jobs:
         id: failure
       - name: Expect failure
         run: |
-          echo "::error title=Expected the failure step to fail::Instead: ${{steps.failure.outcome}}"
+          echo "::setFailed::Expected the failure step to fail; instead: ${{steps.failure.outcome}}"
           exit 1
-        if: ${{ failure() && steps.failure.outcome == 'failure' }}
+        if: ${{ success() && steps.failure.outcome != 'failure' }}
 
   build_failure:
     runs-on: ubuntu-latest
@@ -46,9 +46,9 @@ jobs:
         continue-on-error: true
       - name: Expect failure
         run: |
-          echo "::error title=Expected the failure step to fail::Instead: ${{steps.failure.outcome}}"
+          echo "::setFailed::Expected the failure step to fail; instead: ${{steps.failure.outcome}}"
           exit 1
-        if: ${{ failure() && steps.failure.outcome == 'failure' }}
+        if: ${{ success() && steps.failure.outcome != 'failure' }}
 
   lint_fmt_failure:
     runs-on: ubuntu-latest
@@ -61,9 +61,9 @@ jobs:
         continue-on-error: true
       - name: Expect failure
         run: |
-          echo "::error title=Expected the failure step to fail::Instead: ${{steps.failure.outcome}}"
+          echo "::setFailed::Expected the failure step to fail; instead: ${{steps.failure.outcome}}"
           exit 1
-        if: ${{ failure() && steps.failure.outcome == 'failure' }}
+        if: ${{ success() && steps.failure.outcome != 'failure' }}
 
   lint_failure:
     runs-on: ubuntu-latest
@@ -76,9 +76,9 @@ jobs:
         continue-on-error: true
       - name: Expect failure
         run: |
-          echo "::error title=Expected the failure step to fail::Instead: ${{steps.failure.outcome}}"
+          echo "::setFailed::Expected the failure step to fail; instead: ${{steps.failure.outcome}}"
           exit 1
-        if: ${{ failure() && steps.failure.outcome == 'failure' }}
+        if: ${{ success() && steps.failure.outcome != 'failure' }}
 
   # Testing that we pass the go_version argument through (by failing
   # the build on the wrong one):
@@ -94,9 +94,9 @@ jobs:
         id: failure
       - name: Expect failure
         run: |
-          echo "::error title=Expected the failure step to fail::Instead: ${{steps.failure.outcome}}"
+          echo "::setFailed::Expected the failure step to fail; instead: ${{steps.failure.outcome}}"
           exit 1
-        if: ${{ failure() && steps.failure.outcome == 'failure' }}
+        if: ${{ success() && steps.failure.outcome != 'failure' }}
 
   build_failure_version_mismatch:
     runs-on: ubuntu-latest
@@ -110,9 +110,9 @@ jobs:
         id: failure
       - name: Expect failure
         run: |
-          echo "::error title=Expected the failure step to fail::Instead: ${{steps.failure.outcome}}"
+          echo "::setFailed::Expected the failure step to fail; instead: ${{steps.failure.outcome}}"
           exit 1
-        if: ${{ failure() && steps.failure.outcome == 'failure' }}
+        if: ${{ success() && steps.failure.outcome != 'failure' }}
 
   version_tests:
     uses: "./.github/workflows/ci_baseline_go_tests.yml"
