@@ -18,7 +18,7 @@ runs:
         go-version: ${{inputs.go_version}}
         go-version-file: ${{inputs.module_base}}/go.mod
     - name: golangci-lint
-      uses: golangci/golangci-lint-action@v6
+      uses: golangci/golangci-lint-action@v7
       id: lint
       with:
         version: "v1.61.0"
