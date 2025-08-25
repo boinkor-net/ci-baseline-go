@@ -8,6 +8,10 @@ inputs:
   go_version:
     description: "Go toolchain to use. If unspecified, will use the version given in go.mod in module_base."
     required: false
+  golangci_lint_version:
+    description: "Version of the golangci-lint toolchain to install."
+    required: false
+    default: "latest"
 
 runs:
   using: "composite"
@@ -18,8 +22,8 @@ runs:
         go-version: ${{inputs.go_version}}
         go-version-file: ${{inputs.module_base}}/go.mod
     - name: golangci-lint
-      uses: golangci/golangci-lint-action@v6
+      uses: golangci/golangci-lint-action@v8
       id: lint
       with:
-        version: "v1.61.0"
+        version: ${{inputs.golangci_lint_version}}
         working-directory: ${{inputs.module_base}}
