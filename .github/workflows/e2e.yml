@@ -6,7 +6,7 @@ jobs:
   success_tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./actions/test
         with:
           module_base: "tests/success"
@@ -14,7 +14,7 @@ jobs:
   success_lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./actions/lint
         with:
           module_base: "tests/success"
@@ -22,7 +22,7 @@ jobs:
   success_build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./actions/build
         with:
           module_base: "tests/success"
@@ -31,7 +31,7 @@ jobs:
   success_tests_versioned:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./actions/test
         with:
           module_base: "tests/go1.20"
@@ -39,7 +39,7 @@ jobs:
   success_lint_versioned:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./actions/lint
         with:
           module_base: "tests/go1.20"
@@ -47,7 +47,7 @@ jobs:
   success_build_versioned:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./actions/build
         with:
           module_base: "tests/go1.20"
@@ -57,7 +57,7 @@ jobs:
   failure_test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./actions/test
         with:
           module_base: "tests/test-failure"
@@ -72,7 +72,7 @@ jobs:
   failure_build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./actions/build
         with:
           module_base: "tests/build-failure"
@@ -87,7 +87,7 @@ jobs:
   failure_lint_fmt:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./actions/lint
         with:
           module_base: "tests/fmt-failure"
@@ -102,7 +102,7 @@ jobs:
   failure_lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./actions/lint
         with:
           module_base: "tests/lint-failure"
@@ -119,7 +119,7 @@ jobs:
   failure_test_version_mismatch:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./actions/test
         with:
           go_version: "1.18"
@@ -135,7 +135,7 @@ jobs:
   failure_build_version_mismatch:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./actions/build
         with:
           go_version: "1.18"
