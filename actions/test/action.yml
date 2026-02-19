@@ -13,7 +13,7 @@ runs:
   using: "composite"
   steps:
     - name: Set up go toolchain
-      uses: actions/setup-go@v5
+      uses: actions/setup-go@v6
       with:
         go-version: ${{inputs.go_version}}
         go-version-file: ${{inputs.module_base}}/go.mod
